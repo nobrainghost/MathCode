@@ -6,18 +6,26 @@ def print_canvas(canvas):
         print(''.join(row))
 
 def draw_point(canvas, x, y):
-    center_x = len(canvas) // 2
-    center_y = len(canvas[0]) // 2
-    canvas_x = center_x - x
-    canvas_y = center_y + y
-    if 0 <= canvas_x < len(canvas) and 0 <= canvas_y < len(canvas[0]):
-        canvas[canvas_x][canvas_y] = '*'
+    height = len(canvas)
+    width = len(canvas[0])
+    center_x = width // 2
+    center_y = height // 2
+    
+    # Transform coordinates
+    canvas_x = center_x + x
+    canvas_y = center_y - y  # Flip y-axis
+    
+    # Bounds checking
+    if 0 <= canvas_x < width and 0 <= canvas_y < height:
+        canvas[canvas_y][canvas_x] = '*'
 
 def add_axis(canvas):
     center_x = len(canvas) // 2
     center_y = len(canvas[0]) // 2
+
     for i in range(len(canvas)):
         canvas[i][center_y] = '|'
+
     for i in range(len(canvas[0])):
         canvas[center_x][i] = '-'
     canvas[center_x][center_y] = '0'
@@ -41,9 +49,4 @@ def draw_line(canvas, x1, y1, x2, y2):
             x1 += sx
         if e2 < dx:
             err += dx
-            y1 += sy
-
-# canvas = create_canvas(11, 11)
-# add_axis(canvas)
-# draw_line(canvas, 0, 0, 10, 10)
-# print_canvas(canvas)
+            y1 += sy 
